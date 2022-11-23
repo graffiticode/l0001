@@ -32,12 +32,14 @@ function renderElts(data) {
 }
 
 const Form = () => {
-  const [elts, setElts] = useState([]);
   const router = useRouter();
-  const { type, data } = router.query
+  const { type, data } = router.query;
+  const [ elts, setElts ] = useState([]);
   useEffect(() => {
     try {
-      setElts(renderElts(JSON.parse(data)));
+      if (data) {
+        setElts(renderElts(JSON.parse(data)));
+      }
     } catch (x) {
       // Bad data.
       console.log("Bad data in query: " + x);
