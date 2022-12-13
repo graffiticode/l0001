@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import * as d3 from 'd3';
 //import './style.css';
 
 function renderAttr(attr) {
@@ -11,10 +12,11 @@ function renderAttr(attr) {
   return attr;
 }
 
+let key = 1;
+
 function render(data) {
   data = [].concat(data);
   const elts = [];
-  let key = 1;
   data.forEach(d => {
     if (d === undefined) {
       return;
@@ -24,7 +26,7 @@ function render(data) {
       elts.push(<b key={key++}>{render(d.elts)}</b>);
       break;
     default:
-      elts.push(<text x="10" y="50">{d}</text>);
+      elts.push(<text key={key++} x="10" y="50">{d}</text>);
       break;
     }
   });
@@ -39,15 +41,16 @@ const Form = () => {
     if (data === undefined) {
       return;
     }
+    d3.select("svg").html("");
     const { url } = JSON.parse(data);
-    console.log("Form() url=" + url);
     (async () => {
       const resp = await fetch(
         url,
-        { headers: {'Content-Type': 'application/json'}}
+        {
+          headers: {'Content-Type': 'application/json'},
+        }
       );
       const { data } = await resp.json();
-      console.log("Form() data=" + JSON.stringify(data));
       if (data === undefined) {
         return;
       }
@@ -59,11 +62,9 @@ const Form = () => {
       }
     })();
   }, [data]);
-
   return (
-    <div id="graffiti">
-      <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
-      <svg width="100%" height="100">
+    <div key={key++} id="graffiti">
+      <svg key={key++} height="100">
         {elts}
       </svg>
     </div>
