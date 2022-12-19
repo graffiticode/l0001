@@ -41,8 +41,10 @@ const Form = () => {
     if (data === undefined) {
       return;
     }
+    console.log("Form() data=" + data);
     d3.select("svg").html("");
     const { url } = JSON.parse(data);
+    console.log("Form() url=" + url);
     (async () => {
       const resp = await fetch(
         url,
