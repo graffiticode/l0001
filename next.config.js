@@ -1,10 +1,11 @@
-/** @type {import('next').NextConfig} */
+/** @type {import("next").NextConfig} */
 const nextConfig = {
+  output: "standalone",
   reactStrictMode: true,
   swcMinify: true,
   async rewrites() {
     return [
-      { source: '/compile/:path*', destination: '/api/:path*' }
+      { source: "/compile/:path*", destination: "/api/:path*" }
     ];
   },
 }
