@@ -3,6 +3,10 @@ import { useRouter } from 'next/router';
 import * as d3 from 'd3';
 //import './style.css';
 
+function isNonNullObject(obj) {
+  return (typeof obj === "object" && obj !== null);
+}
+
 function renderAttr(attr) {
   Object.keys(attr).forEach(key => {
     if (key.indexOf('on') === 0) {
@@ -12,7 +16,23 @@ function renderAttr(attr) {
   return attr;
 }
 
-let key = 1;
+let ticket = 1;
+
+function renderJSON(data, depth = 0) {
+  if (isNonNullObject(data)) {
+    console.log("renderJSON() data=" + JSON.stringify(data, null, 2));
+    const keys = Object.keys(data);
+    const x = depth * 15;
+    const elts = keys.map(key => {
+      const val = renderJSON(data[key], depth + 1);
+      return <tspan key={ticket++} x={x} dy="1rem">{key}: {val}</tspan>
+    });
+    console.log("renderJSON() elts=" + JSON.stringify(elts, null, 2));
+    return elts;
+  } else {
+    return data;
+  }
+}
 
 function render(data) {
   data = [].concat(data);
@@ -23,10 +43,13 @@ function render(data) {
     }
     switch(d.type) {
     case 'b':
-      elts.push(<b key={key++}>{render(d.elts)}</b>);
+      elts.push(<b key={ticket++}>{render(d.elts)}</b>);
       break;
     default:
-      elts.push(<text key={key++} x="10" y="50">{d}</text>);
+      if (isNonNullObject(d)) {
+        d = renderJSON(d);
+      }
+      elts.push(<text key={ticket++} x="10" y="50" font-family="monospace">{d}</text>);
       break;
     }
   });
@@ -65,8 +88,8 @@ const Form = () => {
     })();
   }, [data]);
   return (
-    <div key={key++} id="graffiti">
-      <svg key={key++} height="100">
+    <div key={ticket++} id="graffiti">
+      <svg key={ticket++} height="100%">
         {elts}
       </svg>
     </div>
