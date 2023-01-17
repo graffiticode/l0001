@@ -20,14 +20,12 @@ let ticket = 1;
 
 function renderJSON(data, depth = 0) {
   if (isNonNullObject(data)) {
-    console.log("renderJSON() data=" + JSON.stringify(data, null, 2));
     const keys = Object.keys(data);
     const x = depth * 15;
     const elts = keys.map(key => {
       const val = renderJSON(data[key], depth + 1);
       return <tspan key={ticket++} x={x} dy="1rem">{key}: {val}</tspan>
     });
-    console.log("renderJSON() elts=" + JSON.stringify(elts, null, 2));
     return elts;
   } else {
     return data;
@@ -49,7 +47,7 @@ function render(data) {
       if (isNonNullObject(d)) {
         d = renderJSON(d);
       }
-      elts.push(<text key={ticket++} x="10" y="50" font-family="monospace">{d}</text>);
+      elts.push(<text key={ticket++} x="5" y="15" fontFamily="monospace">{d}</text>);
       break;
     }
   });
@@ -58,16 +56,25 @@ function render(data) {
 
 const Form = () => {
   const [ elts, setElts ] = useState([]);
+  const [ width, setWidth ] = useState(100);
+  const [ height, setHeight ] = useState(100);
   const router = useRouter();
   const { type, data } = router.query;
+  useEffect(() => {
+    const bBox = d3.select("svg").node()?.getBBox();
+    const width = Math.trunc(bBox?.width);
+    const height = Math.trunc(bBox?.height);
+    if (width !== 0 && height !== 0) {
+      setWidth(2 * width);
+      setHeight(2 * height);
+    }
+  });
   useEffect(() => {
     if (data === undefined) {
       return;
     }
-    console.log("Form() data=" + data);
     d3.select("svg").html("");
     const { url } = JSON.parse(data);
-    console.log("Form() url=" + url);
     (async () => {
       const resp = await fetch(
         url,
@@ -89,7 +96,7 @@ const Form = () => {
   }, [data]);
   return (
     <div key={ticket++} id="graffiti">
-      <svg key={ticket++} height="100%">
+      <svg key={ticket++} x="10" width={width + 5} height={height + 15}>
         {elts}
       </svg>
     </div>
