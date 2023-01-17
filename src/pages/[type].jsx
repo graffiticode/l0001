@@ -19,39 +19,40 @@ function renderAttr(attr) {
 let ticket = 1;
 
 function renderJSON(data, depth = 0) {
-  if (isNonNullObject(data)) {
+  const x = depth * 15;
+  if (Array.isArray(data)) {
+    const elts = data.map(dat => {
+      const val = renderJSON(dat, depth + 1);
+      return <tspan key={ticket++} x={x + 15} dy="1rem">{val}</tspan>
+    });
+    return (
+      <>
+        <tspan key={ticket++} x={x} dy="1rem">[</tspan>
+        {elts}
+        <tspan key={ticket++} x={x} dy="1rem">]</tspan>
+      </>
+    );
+  } else if (isNonNullObject(data)) {
     const keys = Object.keys(data);
-    const x = depth * 15;
     const elts = keys.map(key => {
       const val = renderJSON(data[key], depth + 1);
-      return <tspan key={ticket++} x={x} dy="1rem">{key}: {val}</tspan>
+      return <tspan key={ticket++} x={x + 15} dy="1rem">{key}: {val}</tspan>
     });
-    return elts;
+    return (
+      <>
+        <tspan key={ticket++} x={x} dy="1rem">{"{"}</tspan>
+        {elts}
+        <tspan key={ticket++} x={x} dy="1rem">{"}"}</tspan>
+      </>
+    );
   } else {
     return data;
   }
 }
 
 function render(data) {
-  data = [].concat(data);
-  const elts = [];
-  data.forEach(d => {
-    if (d === undefined) {
-      return;
-    }
-    switch(d.type) {
-    case 'b':
-      elts.push(<b key={ticket++}>{render(d.elts)}</b>);
-      break;
-    default:
-      if (isNonNullObject(d)) {
-        d = renderJSON(d);
-      }
-      elts.push(<text key={ticket++} x="5" y="15" fontFamily="monospace">{d}</text>);
-      break;
-    }
-  });
-  return elts;
+  const elts = renderJSON(data);
+  return <text key={ticket++} x="5" y="15" fontFamily="monospace">{elts}</text>;
 }
 
 const Form = () => {
