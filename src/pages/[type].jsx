@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import * as d3 from 'd3';
-//import './style.css';
+import bent from "bent";
+
+const getJSON = bent("json");
 
 function isNonNullObject(obj) {
   return (typeof obj === "object" && obj !== null);
@@ -60,7 +62,8 @@ const Form = () => {
   const [ width, setWidth ] = useState(100);
   const [ height, setHeight ] = useState(100);
   const router = useRouter();
-  const { type, data } = router.query;
+  const { id, url } = router.query;
+  let { data } = router.query;
   useEffect(() => {
     const bBox = d3.select("svg").node()?.getBBox();
     const width = Math.trunc(bBox?.width);
@@ -71,19 +74,12 @@ const Form = () => {
     }
   });
   useEffect(() => {
-    if (data === undefined) {
-      return;
-    }
     d3.select("svg").html("");
-    const { url } = JSON.parse(data);
     (async () => {
-      const resp = await fetch(
-        url,
-        {
-          headers: {'Content-Type': 'application/json'},
-        }
-      );
-      const { data } = await resp.json();
+      if (url) {
+        const resp = await getJSON(url);
+        data = resp.data;
+      }
       if (data === undefined) {
         return;
       }
@@ -94,7 +90,7 @@ const Form = () => {
         console.log("Bad data in query: " + x);
       }
     })();
-  }, [data]);
+  }, [url, data]);
   return (
     <div key={ticket++} id="graffiti">
       <svg key={ticket++} x="10" width={width + 5} height={height + 15}>
