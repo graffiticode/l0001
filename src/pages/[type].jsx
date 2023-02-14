@@ -58,9 +58,9 @@ function render(data) {
 }
 
 const Form = () => {
-  const [ elts, setElts ] = useState([]);
-  const [ width, setWidth ] = useState(100);
-  const [ height, setHeight ] = useState(100);
+  const [elts, setElts] = useState([]);
+  const [width, setWidth] = useState(100);
+  const [height, setHeight] = useState(100);
   const router = useRouter();
   const { id, url } = router.query;
   let { data } = router.query;
@@ -92,7 +92,7 @@ const Form = () => {
     })();
   }, [url, data]);
   return (
-    <div key={ticket++} id="graffiti">
+    <div key={ticket++} id="graffiti" style={{ backgroundColor: "aliceblue" }}>
       <svg key={ticket++} x="10" width={width + 5} height={height + 15}>
         {elts}
       </svg>
