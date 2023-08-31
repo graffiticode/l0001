@@ -63,12 +63,13 @@ const Form = () => {
   const [height, setHeight] = useState(100);
   const router = useRouter();
   const { id, url } = router.query;
+  const [ isLoading, setIsLoading ] = useState(true);
   let { data } = router.query;
   useEffect(() => {
     const bBox = d3.select("svg").node()?.getBBox();
     const width = Math.trunc(bBox?.width);
     const height = Math.trunc(bBox?.height);
-    if (width !== 0 && height !== 0) {
+    if (width && height) {
       setWidth(2 * width);
       setHeight(2 * height);
     }
@@ -79,6 +80,7 @@ const Form = () => {
       if (url) {
         const resp = await getJSON(url);
         data = resp.data;
+        setIsLoading(false);
       }
       if (data === undefined) {
         return;
@@ -92,6 +94,7 @@ const Form = () => {
     })();
   }, [url, data]);
   return (
+    isLoading && <div>Loading...</div> ||
     <div key={ticket++} id="graffiti" style={{ backgroundColor: "aliceblue" }}>
       <svg key={ticket++} x="10" width={width + 5} height={height + 15}>
         {elts}
