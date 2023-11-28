@@ -23,7 +23,6 @@ export const getApiTask = async ({ auth, id }) => {
 };
 
 export const postApiCompile = async ({ accessToken, id, data }) => {
-  console.log("postApiCompile() accessToken=" + accessToken + " id=" + id);
   try {
     const headers = {
       authorization: accessToken,
@@ -32,7 +31,6 @@ export const postApiCompile = async ({ accessToken, id, data }) => {
     const post = bent(apiUrl, "POST", "json", headers);
     const body = { id, data };
     const resp = await post('/compile', body);
-    console.log("postApiCompile() resp.data = " + JSON.stringify(resp.data, null, 2));
     if (resp.status !== "success") {
       throw new Error(`failed to post compile ${id}: ${error.message}`);
     }

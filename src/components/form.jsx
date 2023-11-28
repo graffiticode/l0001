@@ -7,11 +7,10 @@ function isNonNullObject(obj) {
 let ticket = 1;
 
 function renderJSON(data, depth = 0) {
-  const x = depth * 15;
   if (Array.isArray(data)) {
     const elts = data.map(dat => {
       const val = renderJSON(dat, depth + 1);
-      return <p key={ticket++}>{val}</p>
+      return <div key={ticket++}>{val}</div>
     });
     return (
       <>
@@ -21,24 +20,23 @@ function renderJSON(data, depth = 0) {
       </>
     );
   } else if (isNonNullObject(data)) {
-    data = JSON.parse(JSON.stringify(data));
     const keys = Object.keys(data);
     const elts = keys.map(key => {
-      const val = renderJSON(data[key], depth + 1);
+      const val = renderJSON(data[key], depth + 2);
       if (typeof data[key] !== "function") {
-        return <p key={ticket++}>{key}: {val}</p>
+        return <div key={ticket++}>{key}: {val}</div>
       } else {
         return "";
       }
     });
     return (
-      elts.length === 0
-        && <div />
-        || <>
-             <div key={ticket++}>{"{"}</div>
-             {elts}
-             <div key={ticket++}>{"}"}</div>
-           </>
+      <>
+        <div key={ticket++}>{"{"}</div>
+        <div className={`ml-${depth}`}>
+          {elts}
+        </div>
+        <div key={ticket++}>{"}"}</div>
+      </>
     );
   } else {
     return data;
@@ -57,13 +55,13 @@ function render(data) {
     case "b":
       return <b key={ticket++}>{data.elts}</b>
     case "p":
-      return <p key={ticket++}>{render(data.elts)}</p>
+      return <div key={ticket++}>{render(data.elts)}</div>
     default:
       return renderJSON(data);
     }
   } else {
     return data;
-  }  
+  }
 }
 
 function classNames(...classes) {

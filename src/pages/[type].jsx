@@ -5,16 +5,17 @@ import { compile } from '../swr/fetchers';
 import { Form } from '../components/form';
 
 function isNonNullObject(obj) {
-  return (typeof obj === "object" && obj !== null);
+  return (
+    typeof obj === "object" &&
+      obj !== null &&
+      Object.keys(JSON.parse(JSON.stringify(obj))).length !== 0
+  );
 }
 
 let ticket = 1;
 
 const View = (props = {}) => {
   const router = useRouter();
-  const [elts, setElts] = useState([]);
-  const [width, setWidth] = useState(100);
-  const [height, setHeight] = useState(100);
   const { access_token: accessToken, id } = router.query;
   const [ data, setData ] = useState({});
   const resp = useSWR(
@@ -42,12 +43,10 @@ const View = (props = {}) => {
     },
   };
 
-  console.log("Form() state=" + JSON.stringify(state, null, 2));
-
-  const { isLoading } = resp;
-
   return (
-    <Form state={state} />
+    isNonNullObject(state)
+      && <Form state={state} />
+      || <div />
   );
 }
 
