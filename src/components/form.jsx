@@ -4,19 +4,19 @@ function isNonNullObject(obj) {
   return (typeof obj === "object" && obj !== null);
 }
 
-let ticket = 1;
+let key = 1;
 
 function renderJSON(data, depth = 0) {
   if (Array.isArray(data)) {
     const elts = data.map(dat => {
       const val = renderJSON(dat, depth + 1);
-      return <div key={ticket++}>{val}</div>
+      return <div key={key++}>{val}</div>
     });
     return (
       <>
-        <div key={ticket++}>[</div>
+        <div key={key++}>[</div>
         {elts}
-        <div key={ticket++}>]</div>
+        <div key={key++}>]</div>
       </>
     );
   } else if (isNonNullObject(data)) {
@@ -24,18 +24,18 @@ function renderJSON(data, depth = 0) {
     const elts = keys.map(key => {
       const val = renderJSON(data[key], depth + 2);
       if (typeof data[key] !== "function") {
-        return <div key={ticket++}>{key}: {val}</div>
+        return <div key={key++}>{key}: {val}</div>
       } else {
         return "";
       }
     });
     return (
       <>
-        <div key={ticket++}>{"{"}</div>
+        <div key={key++}>{"{"}</div>
         <div className={`ml-${depth}`}>
           {elts}
         </div>
-        <div key={ticket++}>{"}"}</div>
+        <div key={key++}>{"}"}</div>
       </>
     );
   } else {
@@ -47,25 +47,21 @@ function render(data) {
   if (Array.isArray(data)) {
     const elts = data.map(dat => {
       const val = render(dat);
-      return <p key={ticket++}>{val}</p>
+      return <div key={key++}>{val}</div>
     });
     return elts;
   } else if (isNonNullObject(data)) {
     switch (data.type) {
     case "b":
-      return <b key={ticket++}>{data.elts}</b>
+      return <b key={key++}>{data.elts}</b>;
     case "p":
-      return <div key={ticket++}>{render(data.elts)}</div>
+      return <div key={key++}>{render(data.elts)}</div>;
     default:
-      return renderJSON(data);
+      return <div key={key++}>{JSON.stringify(data)}</div>;
     }
   } else {
     return data;
   }
-}
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
 }
 
 export const Form = ({ state }) => {

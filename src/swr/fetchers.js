@@ -1,6 +1,4 @@
-import bent from "bent";
-import { postApiCompile } from "../lib/api.js";
-
+import { postApiCompile } from "../lib/api";
 export const compile = async ({ accessToken, id, data }) => {
   try {
     const index = Object.keys(data).length > 0 && 1 || 2; // Empty data so use full id.

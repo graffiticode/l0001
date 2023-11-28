@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import { compile } from '../swr/fetchers';
@@ -11,8 +11,6 @@ function isNonNullObject(obj) {
       Object.keys(JSON.parse(JSON.stringify(obj))).length !== 0
   );
 }
-
-let ticket = 1;
 
 const View = (props = {}) => {
   const router = useRouter();
@@ -44,9 +42,9 @@ const View = (props = {}) => {
   };
 
   return (
-    isNonNullObject(state)
-      && <Form state={state} />
-      || <div />
+    isNonNullObject(state) &&
+      <Form state={state} /> ||
+      <div />
   );
 }
 
