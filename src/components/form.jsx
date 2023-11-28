@@ -21,6 +21,7 @@ function renderJSON(data, depth = 0) {
       </>
     );
   } else if (isNonNullObject(data)) {
+    data = JSON.parse(JSON.stringify(data));
     const keys = Object.keys(data);
     const elts = keys.map(key => {
       const val = renderJSON(data[key], depth + 1);
@@ -31,11 +32,13 @@ function renderJSON(data, depth = 0) {
       }
     });
     return (
-      <>
-        <div key={ticket++}>{"{"}</div>
-        {elts}
-        <div key={ticket++}>{"}"}</div>
-      </>
+      elts.length === 0
+        && <div />
+        || <>
+             <div key={ticket++}>{"{"}</div>
+             {elts}
+             <div key={ticket++}>{"}"}</div>
+           </>
     );
   } else {
     return data;
