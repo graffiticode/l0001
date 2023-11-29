@@ -1,9 +1,9 @@
 {
-  "name": "l1",
+  "name": "l0001",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 51",
+    "dev": "next dev -p 50001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
