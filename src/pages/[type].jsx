@@ -27,7 +27,7 @@ const View = (props = {}) => {
 
   const state = {
     ...data,
-    ...resp.data,
+    val: resp.data,
     apply({ type, args = [] }) {
       // Apply actions to state.
       switch (type) {
