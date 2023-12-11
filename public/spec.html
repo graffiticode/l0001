@@ -12,15 +12,81 @@
 <header>
 <h1>L0001 Language Specification</h1>
 <section id="intro">
-<p><code>Draft: 12 Dec 2023</code></p>
-<p><em>[This is where we define the L0001 language]</em> </p>
+<p><em>[11 December 2023 Draft]</em></p>
+<section id="sec-Introduction" class="subsec">
+<h6><a href="#sec-Introduction" title="link to this subsection">Introduction</a></h6>
+<p><em>Graffiticode</em> is a collection of domain languages used for creating task specific web apis. <strong> <em>L0001</em> </strong> is a <em>Graffiticode</em> language for writing web apis that respond with simple values such as the string &ldquo;hello, world!&rdquo;.</p>
+<p><em>L0001</em> can be used as a template for deriving other, presumably more interesting and useful, languages.</p>
+</section>
 </section>
 <nav class="spec-toc">
 <div class="title">Contents</div>
 <ol>
+<li><a href="#sec-Overview"><span class="spec-secid">1</span>Overview</a></li>
+<li><a href="#sec-Vocabulary"><span class="spec-secid">2</span>Vocabulary</a></li>
 </ol>
 </nav>
 </header>
+<section id="sec-Overview" secid="1">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Overview">1</a></span>Overview</h1>
+<pre><code>hello "world"..
+
+</code></pre>
+<p>renders</p>
+<p>| <strong>hello, world!</strong></p>
+<p>in the browser view.</p>
+</section>
+<section id="sec-Vocabulary" secid="2">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Vocabulary">2</a></span>Vocabulary</h1>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th align="center">Arity</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>hello</strong></td>
+<td align="center">1</td>
+<td><code>hello "world"</code></td>
+<td>renders <strong>hello, world!</strong> in the form</td>
+</tr>
+<tr>
+<td><strong>val</strong></td>
+<td align="center">2</td>
+<td><code>val ob "x"</code></td>
+<td>returns the value of <code>x</code> in <code>ob</code></td>
+</tr>
+<tr>
+<td><strong>concat</strong></td>
+<td align="center">1</td>
+<td><code>concat [x,y]</code></td>
+<td>returns the string value that is the concatentation of the values of x and y</td>
+</tr>
+<tr>
+<td><strong>add</strong></td>
+<td align="center">2</td>
+<td><code>add x y</code></td>
+<td>returns the sum of values of <code>x</code> and <code>y</code></td>
+</tr>
+<tr>
+<td><strong>map</strong></td>
+<td align="center">2</td>
+<td><code>map fn [1,2,3]</code></td>
+<td>returns a list containing the result of applying <code>fn</code> to each element in the list <code>[1,2,3]</code></td>
+</tr>
+<tr>
+<td><strong>data</strong></td>
+<td align="center">1</td>
+<td><code>data ob</code></td>
+<td>returns the value of data passed to the current task, or otherwise the value of <code>ob</code></td>
+</tr>
+</tbody>
+</table>
+</section>
 </article>
 <footer>
 Written in <a href="https://spec-md.com" target="_blank">Spec Markdown</a>.</footer>
@@ -28,7 +94,9 @@ Written in <a href="https://spec-md.com" target="_blank">Spec Markdown</a>.</foo
 <div class="spec-sidebar" aria-hidden>
 <div class="spec-toc">
 <div class="title"><a href="#">L0001 Language Specification</a></div>
-<ol></ol>
+<ol><li id="_sidebar_1"><a href="#sec-Overview"><span class="spec-secid">1</span>Overview</a></li>
+<li id="_sidebar_2"><a href="#sec-Vocabulary"><span class="spec-secid">2</span>Vocabulary</a></li>
+</ol>
 </div>
 </div>
 </body>

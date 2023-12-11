@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 50001",
-    "build": "next build",
+    "build": "next build; npm run build-spec",
     "start": "next start",
     "lint": "next lint",
-    "build-spec": "npx spec-md ./docs/spec.md > ./public/spec.html"
+    "build-spec": "npx spec-md ./docs/spec.md > ./public/spec.html",
+    "watch-spec": "npx nodemon --exec 'npx spec-md > ./public/spec.html' ./docs/spec.md"
   },
   "dependencies": {
     "@graffiticode/basis": "^1.2.0",
@@ -20,6 +21,7 @@
     "eslint-config-next": "13.0.2",
     "hashids": "^2.2.10",
     "next": "13.0.2",
+    "nodemon": "^3.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.5",
