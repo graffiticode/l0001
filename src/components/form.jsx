@@ -10,19 +10,19 @@ function renderJSON(data, depth = 0) {
   );
 }
 
-function render(data) {
-  console.log("render() data=" + JSON.stringify(data));
-  if (isNonNullObject(data)) {
-    return renderJSON(data);
+function render({state}) {
+  const { data } = state;
+  if (data.val) {
+    return data.val;
   } else {
-    return data;
+    return renderJSON(data);
   }
 }
 
 export const Form = ({ state }) => {
   return (
     <div className="bg-gray-100 p-2">
-      { render(state.val) }
+      { render({state}) }
     </div>
   );
 }

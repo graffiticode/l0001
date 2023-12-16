@@ -1,50 +1,62 @@
-import React, { useState } from 'react';
-import useSWR from 'swr';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { compile } from '../swr/fetchers';
-import { Form } from '../components/form';
-
-function isNonNullObject(obj) {
-  return (
-    typeof obj === "object" &&
-      obj !== null &&
-      Object.keys(JSON.parse(JSON.stringify(obj))).length !== 0
-  );
-}
+import useSWR from 'swr';
+import { Form } from "../components/form";
 
 const View = (props = {}) => {
   const router = useRouter();
-  const { access_token: accessToken, id } = router.query;
-  const [ data, setData ] = useState({});
+  const { access_token: accessToken, id } = router.query || props;
+  const [ recompile, setRecompile ] = useState(true);
+  const createState = (data, reducer) => {
+    return {
+      apply(action) {
+        data = reducer(data, action);
+      },
+      get data() {
+        return data
+      },
+    };
+  };
+
+  const [ state ] = useState(createState({}, (data, { type, args }) => {
+    switch (type) {
+    case "compiled":
+      return {
+        ...data,
+        ...args,
+      };
+    case "change":
+      setRecompile(true);
+      return {
+        ...data,
+        ...args,
+      };
+    default:
+      console.error(false, `Unimplemented action type: ${type}`);
+      return data;
+    }
+  }));
+
   const resp = useSWR(
-    accessToken && id && {
+    recompile && accessToken && id && {
       accessToken,
       id,
-      data,
+      data: state.data,
     },
     compile
   );
 
-  const state = {
-    ...data,
-    val: resp.data,
-    apply({ type, args = [] }) {
-      // Apply actions to state.
-      switch (type) {
-      default:
-        setData({
-          ...state,
-          // updated data here
-        });
-        break;
-      }
-    },
-  };
+  if (resp.data) {
+    state.apply({
+      type: "compiled",
+      args: resp.data,
+    });
+    setRecompile(false);
+  }
 
   return (
-    isNonNullObject(state) &&
-      <Form state={state} /> ||
-      <div />
+    <Form state={state} />
   );
 }
 
