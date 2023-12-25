@@ -28,8 +28,12 @@ export class Transformer extends BasisTransformer {
     this.visit(node.elts[0], options, async (e0, v0) => {
       const err = [];
       const val = v0.pop();
-      console.log("PROG() val=" + JSON.stringify(val));
-      resume(err, {val});
+      console.log("PROG() val=" + JSON.stringify(val, null, 2));
+      if (typeof val === "object" && val !== null) {
+        resume(err, val);
+      } else {
+        resume(err, {val});
+      }
     });
   }
 }
