@@ -15,7 +15,7 @@ export default async function compileHandler(req, res) {
       return res.status(400).send();
     }
     if (code.root === undefined) {
-      // Special case of code as data.
+      // [deprecated] Special case of code as data.
       return res.status(200).json(code);
     }
     await new Promise((resolve) =>

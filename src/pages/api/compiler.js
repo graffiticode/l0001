@@ -30,9 +30,13 @@ export class Transformer extends BasisTransformer {
       const val = v0.pop();
       console.log("PROG() val=" + JSON.stringify(val, null, 2));
       if (typeof val === "object" && val !== null) {
-        resume(err, val);
+        resume(err, {
+          json: JSON.stringify(val),
+        });
       } else {
-        resume(err, {val});
+        resume(err, {
+          val,
+        });
       }
     });
   }
