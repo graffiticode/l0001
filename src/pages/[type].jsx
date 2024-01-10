@@ -1,23 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { compile } from '../swr/fetchers';
 import useSWR from 'swr';
 import { Form } from "../components/form";
+import { createState } from "../lib/state";
 
-const View = (props = {}) => {
-  const router = useRouter();
-  const { access_token: accessToken, id } = router.query || props;
+const View = ({ accessToken, id }) => {
   const [ recompile, setRecompile ] = useState(true);
-  const createState = (data, reducer) => {
-    return {
-      apply(action) {
-        data = reducer(data, action);
-      },
-      get data() {
-        return data
-      },
-    };
-  };
+  useEffect(() => {
+    // If `id` changes, then recompile.
+    setRecompile(true);
+  }, [id]);
 
   const [ state ] = useState(createState({}, (data, { type, args }) => {
     switch (type) {
