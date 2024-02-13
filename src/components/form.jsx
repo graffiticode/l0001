@@ -12,19 +12,18 @@ function renderJSON(data, depth = 0) {
 
 function render({state}) {
   const { data } = state;
-  if (data.val) {
-    return data.val;
+  if (data.hello) {
+    return <span className="text-sm">{`hello, ${data.hello}!`}</span>;
   } else {
     return renderJSON(data);
   }
 }
 
 export const Form = ({ state, setHeight }) => {
-  console.log("Form() state=" + JSON.stringify(state, null, 2));
   const ref = useRef();
   useEffect(() => {
     setHeight(ref.current.offsetHeight);
-  }, [ref.current]);
+  }, [ref.current, state.data]);
 
   return (
     <div className="bg-gray-100 p-2" ref={ref}>

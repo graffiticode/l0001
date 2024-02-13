@@ -19,25 +19,18 @@ export class Transformer extends BasisTransformer {
   HELLO(node, options, resume) {
     this.visit(node.elts[0], options, async (e0, v0) => {
       const err = [];
-      const val = `hello, ${v0}!`;
+      const val = {
+        hello: v0,
+      };
       resume(err, val);
     });
   }
 
   PROG(node, options, resume) {
     this.visit(node.elts[0], options, async (e0, v0) => {
-      const err = [];
+      const err = e0;
       const val = v0.pop();
-      console.log("PROG() val=" + JSON.stringify(val, null, 2));
-      if (typeof val === "object" && val !== null) {
-        resume(err, {
-          json: JSON.stringify(val),
-        });
-      } else {
-        resume(err, {
-          val,
-        });
-      }
+      resume(err, val);
     });
   }
 }
