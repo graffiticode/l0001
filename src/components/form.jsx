@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 function isNonNullObject(obj) {
   return (typeof obj === "object" && obj !== null);
@@ -19,9 +19,15 @@ function render({state}) {
   }
 }
 
-export const Form = ({ state }) => {
+export const Form = ({ state, setHeight }) => {
+  console.log("Form() state=" + JSON.stringify(state, null, 2));
+  const ref = useRef();
+  useEffect(() => {
+    setHeight(ref.current.offsetHeight);
+  }, [ref.current]);
+
   return (
-    <div className="bg-gray-100 p-2">
+    <div className="bg-gray-100 p-2" ref={ref}>
       { render({state}) }
     </div>
   );

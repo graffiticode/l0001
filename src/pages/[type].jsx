@@ -13,8 +13,11 @@ function isNonNullNonEmptyObject(obj) {
   );
 }
 
-const View = ({ accessToken, id }) => {
+const View = () => {
+  const router = useRouter();
+  const { access_token: accessToken, id } = router.query || props;
   const [ recompile, setRecompile ] = useState(true);
+  const [ height, setHeight ] = useState(0);
   useEffect(() => {
     // If `id` changes, then recompile.
     setRecompile(true);
@@ -56,10 +59,13 @@ const View = ({ accessToken, id }) => {
     setRecompile(false);
   }
 
-  console.log("View() state=" + isNonNullNonEmptyObject(state))
+  useEffect(() => {
+    window.parent.postMessage({height}, "*");
+  }, [height]);
+
   return (
     isNonNullNonEmptyObject(state) &&
-      <Form state={state} /> ||
+      <Form state={state} setHeight={setHeight} /> ||
       <div />
   );
 }
