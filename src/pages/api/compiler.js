@@ -18,9 +18,10 @@ export class Checker extends BasisChecker {
 export class Transformer extends BasisTransformer {
   HELLO(node, options, resume) {
     this.visit(node.elts[0], options, async (e0, v0) => {
+      console.log("HELLO() options=" + JSON.stringify(options));
       const err = [];
       const val = {
-        hello: v0,
+        hello: options?.data?.hello || v0,
       };
       resume(err, val);
     });
