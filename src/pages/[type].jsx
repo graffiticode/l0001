@@ -19,8 +19,11 @@ const View = () => {
   const [ recompile, setRecompile ] = useState(true);
   const [ height, setHeight ] = useState(0);
   useEffect(() => {
+    console.log("L0001 View() id=" + id);
     // If `id` changes, then recompile.
-    setRecompile(true);
+    if (id) {
+      setRecompile(true);
+    }
   }, [id]);
 
   const [ state ] = useState(createState({}, (data, { type, args }) => {
@@ -64,7 +67,7 @@ const View = () => {
   }, [height]);
 
   return (
-    isNonNullNonEmptyObject(state) &&
+    isNonNullNonEmptyObject(state.data) &&
       <Form state={state} setHeight={setHeight} /> ||
       <div />
   );
