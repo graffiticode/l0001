@@ -8,7 +8,6 @@
     "hello": {
       "description": "The person, place or thing being greeted",
       "type": "string",
-      "enum": ["world", "jeff", "america"]
     }
   },
   "required": ["hello"]

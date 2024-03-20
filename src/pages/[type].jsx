@@ -19,7 +19,6 @@ const View = () => {
   const [ recompile, setRecompile ] = useState(true);
   const [ height, setHeight ] = useState(0);
   useEffect(() => {
-    console.log("L0001 View() id=" + id);
     // If `id` changes, then recompile.
     if (id) {
       setRecompile(true);

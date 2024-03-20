@@ -5,14 +5,15 @@ function isNonNullObject(obj) {
 }
 
 function renderJSON(data, depth = 0) {
+  delete data.schema;
   return (
-    <pre className="text-sm">{JSON.stringify(data, null, 2)}</pre>
+    <pre className="text-xs">{JSON.stringify(data, null, 2)}</pre>
   );
 }
 
 function render({state}) {
   const { data } = state;
-  if (data.hello) {
+  if (typeof data.hello === "string") {
     return <span className="text-sm">{`hello, ${data.hello}!`}</span>;
   } else {
     return renderJSON(data);
@@ -26,7 +27,7 @@ export const Form = ({ state, setHeight }) => {
   }, [ref.current, state.data]);
 
   return (
-    <div className="bg-gray-100 p-2" ref={ref}>
+    <div className="p-2" ref={ref}>
       { render({state}) }
     </div>
   );
