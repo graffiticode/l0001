@@ -1,5 +1,5 @@
 {
-  "name": "l0001",
+  "name": "@graffiticode/l0001",
   "version": "0.3.0",
   "private": true,
   "scripts": {
@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "build-spec": "npx spec-md ./docs/spec.md > ./public/spec.html",
-    "watch-spec": "npx nodemon --exec 'npx spec-md > ./public/spec.html' ./docs/spec.md"
+    "watch-spec": "npx nodemon --exec 'npx spec-md > ./public/spec.html' ./docs/spec.md",
+    "gcp:build": "gcloud builds submit --config cloudbuild.yaml --substitutions=COMMIT_SHA=$(git rev-parse --short HEAD 2>/dev/null || echo 'latest')",
+    "gcp:deploy": "gcloud run deploy l0001 --source . --port 3000 --region us-central1 --platform managed --allow-unauthenticated",
+    "gcp:logs": "gcloud run logs read l0001 --region us-central1"
   },
   "dependencies": {
     "@graffiticode/basis": "^1.4.0",

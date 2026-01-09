@@ -1,0 +1,32 @@
+.gcloudignore
+.git
+.gitignore
+
+# Node.js dependencies
+**/node_modules/
+
+# Build artifacts
+**/.next/
+**/dist/
+**/*.log
+
+# Environment files
+**/.env
+**/.env.*
+
+# Test files
+**/test/
+**/*.spec.js
+**/*.test.js
+
+# Development files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Documentation
+README.md
+CLAUDE.md
