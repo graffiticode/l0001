@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [

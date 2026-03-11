@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 import React, { useState, useEffect, useRef } from 'react';
 
 function isNonNullObject(obj) {

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 import bent from "bent";
 import { GraphQLClient, gql } from 'graphql-request';
 

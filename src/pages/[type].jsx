@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { compile } from '../swr/fetchers';
