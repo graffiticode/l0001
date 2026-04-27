@@ -2,6 +2,8 @@
   "name": "@graffiticode/l0001",
   "version": "0.3.0",
   "private": true,
+  "deprecated": "L0001 is deprecated and no longer maintained. The repo is retained for historical reference only; not advertised by the Graffiticode console or MCP server. See L0002 for an actively supported starter language.",
+  "description": "[DEPRECATED] Graffiticode starter language — retained for historical reference only.",
   "scripts": {
     "dev": "next dev -p 50001",
     "build": "next build; npm run build-spec",

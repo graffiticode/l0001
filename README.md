@@ -1,3 +1,15 @@
+## ⚠️ Deprecated
+
+**L0001 is deprecated and no longer maintained.** It is not advertised
+by the Graffiticode console or the MCP server's `list_languages`
+catalog, and it does not provide a `user-guide.md` (so calls to
+`get_language_info` for L0001 would surface a broken
+`user_guide_resource` URI).
+
+The repo is retained for historical reference only. Do not build new
+work on top of L0001. For an actively supported starter language, see
+[L0002](https://github.com/graffiticode/l0002).
+
 ## Getting Started
 
 [![License: MIT](https://img.shields.io/badge/Code-MIT-blue.svg)](LICENSE)
