@@ -28,7 +28,16 @@ steps:
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
       - '--port=3000'
-      - '--set-env-vars=NODE_ENV=staging,BRANCH=$BRANCH_NAME'
+      # ISOLATE-01: staging services are compilers too: they run as l0001-run and reach
+      # the outside only through the egress proxy, like production (checked by
+      # graffiticode/graffiticode scripts/legacy-network-check.js).
+      - '--service-account=l0001-run@graffiticode.iam.gserviceaccount.com'
+      - '--network=compilers'
+      - '--subnet=compilers-default'
+      - '--network-tags=compiler'
+      - '--vpc-egress=all-traffic'
+      - '--update-secrets=/etc/egress-ca/ca.pem=egress-proxy-ca-bundle:1'
+      - '--update-env-vars=^@^NODE_ENV=staging@BRANCH=$BRANCH_NAME@HTTPS_PROXY=http://10.8.0.2:3128@HTTP_PROXY=http://10.8.0.2:3128@NO_PROXY=169.254.169.254,metadata.google.internal@NODE_EXTRA_CA_CERTS=/etc/egress-ca/ca.pem@NODE_USE_ENV_PROXY=1'
       - '--allow-unauthenticated'
       - '--max-instances=10'
       - '--memory=256Mi'
